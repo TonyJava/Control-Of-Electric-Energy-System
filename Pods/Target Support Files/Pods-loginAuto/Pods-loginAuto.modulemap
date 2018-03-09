@@ -1,0 +1,6 @@
+framework module Pods_loginAuto {
+  umbrella header "Pods-loginAuto-umbrella.h"
+
+  export *
+  module * { export * }
+}
