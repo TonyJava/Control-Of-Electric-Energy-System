@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  loginAuto
-//
-//  Created by bugking on 2017. 12. 16..
-//  Copyright © 2017년 bugking. All rights reserved.
-//
 
 import UIKit
 
@@ -12,11 +5,35 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var launchCount:Int = 0
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+    
+        window?.rootViewController = NavigationController()
+        if launchCount == 0 {
+            UserDefaults.standard.setisFirstExcuteIn(value: true)
+            launchCount += 1
+        } else{
+            UserDefaults.standard.setisFirstExcuteIn(value: false)
+        }
+        
+        UserDefaults.standard.setloginId(value: "")
+        UserDefaults.standard.setToken(value: "")
+        UserDefaults.standard.setRights(value: 0)
+        UserDefaults.standard.setIsLoggedIn(value: false)
+        
         return true
+    }
+    
+    func customAlert(message:String){
+        // 이렇게 하니깐 되는데 상태바 까지는 색이 안칠해지는데 어떻게 해결해야함??????
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
