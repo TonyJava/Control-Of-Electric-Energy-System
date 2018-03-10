@@ -145,7 +145,8 @@ class ConfigController: UIViewController {
             navigationController?.pushViewController(AdminController(), animated: true)
             
         } else {
-            customAlertJustEnter("잘못된 접근입니다.", viewController: self)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.showAlert("잘못된 접근입니다.")
         }
     }
     

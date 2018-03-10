@@ -14,7 +14,6 @@
 		850DE22C1FF22D0A00C828FF /* exAdmin + UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE22B1FF22D0A00C828FF /* exAdmin + UITableView.swift */; };
 		850DE22E1FF22E9D00C828FF /* AdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE22D1FF22E9D00C828FF /* AdminCell.swift */; };
 		85967A9C1FF24930009E5027 /* extUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85967A9B1FF24930009E5027 /* extUITextField.swift */; };
-		85967AA01FF27D5A009E5027 /* customAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85967A9F1FF27D5A009E5027 /* customAlert.swift */; };
 		C59448C28665A547A4A8A1D7 /* Pods_loginAuto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99ACFC8A305EECC21EA3CAD4 /* Pods_loginAuto.framework */; };
 		D565C8941FE74C9500E6E85D /* extMain + UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D565C8931FE74C9500E6E85D /* extMain + UICollectionView.swift */; };
 		D565C8961FE74D7E00E6E85D /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D565C8951FE74D7E00E6E85D /* MainCell.swift */; };
@@ -47,7 +46,6 @@
 		850DE22B1FF22D0A00C828FF /* exAdmin + UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "exAdmin + UITableView.swift"; sourceTree = "<group>"; };
 		850DE22D1FF22E9D00C828FF /* AdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminCell.swift; sourceTree = "<group>"; };
 		85967A9B1FF24930009E5027 /* extUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extUITextField.swift; sourceTree = "<group>"; };
-		85967A9F1FF27D5A009E5027 /* customAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customAlert.swift; sourceTree = "<group>"; };
 		99ACFC8A305EECC21EA3CAD4 /* Pods_loginAuto.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_loginAuto.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D565C8931FE74C9500E6E85D /* extMain + UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extMain + UICollectionView.swift"; sourceTree = "<group>"; };
 		D565C8951FE74D7E00E6E85D /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
@@ -181,7 +179,7 @@
 		D5688F981FE4F61F006D7423 /* loginAuto */ = {
 			isa = PBXGroup;
 			children = (
-				D57950811FE80D07006E63E6 /* Network */,
+				D57950811FE80D07006E63E6 /* Model */,
 				D5688FB71FE516C5006D7423 /* Extensions */,
 				D5688FB51FE5169C006D7423 /* Controller */,
 				D5688FB61FE516A3006D7423 /* View */,
@@ -225,20 +223,19 @@
 			children = (
 				D5688FAB1FE4F930006D7423 /* extUIView.swift */,
 				D5688FBA1FE51A1F006D7423 /* exUIColor.swift */,
-				D5688FAF1FE504AD006D7423 /* Data.swift */,
 				D5688FC41FE65714006D7423 /* extUserDefualts.swift */,
 				85967A9B1FF24930009E5027 /* extUITextField.swift */,
-				85967A9F1FF27D5A009E5027 /* customAlert.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		D57950811FE80D07006E63E6 /* Network */ = {
+		D57950811FE80D07006E63E6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				D57950821FE80D18006E63E6 /* Network.swift */,
+				D5688FAF1FE504AD006D7423 /* Data.swift */,
 			);
-			path = Network;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E00E0DE33CFA3AA1223A7688 /* Pods */ = {
@@ -392,7 +389,6 @@
 				850DE2201FF146B400C828FF /* SignUpController.swift in Sources */,
 				850DE2291FF2256C00C828FF /* AdminController.swift in Sources */,
 				85967A9C1FF24930009E5027 /* extUITextField.swift in Sources */,
-				85967AA01FF27D5A009E5027 /* customAlert.swift in Sources */,
 				850DE21D1FF137C000C828FF /* LoginController.swift in Sources */,
 				D565C89F1FE7AB0000E6E85D /* ShutdownCell.swift in Sources */,
 				D5688F9C1FE4F61F006D7423 /* InitController.swift in Sources */,

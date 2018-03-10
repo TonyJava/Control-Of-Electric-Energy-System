@@ -134,7 +134,7 @@ class LoginController: UIViewController {
         }
         
         if message.0 != 0 {
-            let alert = customAlertReturnAlert(message.1)
+            let alert = UIAlertController(title: "Information", message: message.1, preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [unowned self] (Action) in
                 switch message.0{

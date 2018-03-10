@@ -1,6 +1,5 @@
 
 import UIKit
-import Alamofire
 
 protocol ShutdownDelegate {
     func shutdownButton(tag: Int)

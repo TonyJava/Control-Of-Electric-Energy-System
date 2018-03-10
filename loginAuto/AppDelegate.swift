@@ -6,6 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var launchCount:Int = 0
+    var container = UIView()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -28,12 +29,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func customAlert(message:String){
-        // 이렇게 하니깐 되는데 상태바 까지는 색이 안칠해지는데 어떻게 해결해야함??????
-        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
-        window?.rootViewController?.present(alert, animated: true, completion: nil)
+    // Indicator 보여주기
+    func isshowActivityIndicatory() {
+        container.frame = UIScreen.main.bounds
+        container.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
         
+        let loadingView = UIView()
+        loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        loadingView.center = container.center
+        loadingView.backgroundColor = UIColor(white: 0.3, alpha: 0.7)
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = 10
+        
+        let actInd = UIActivityIndicatorView()
+        actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        actInd.activityIndicatorViewStyle = .whiteLarge
+        actInd.center = CGPoint(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2)
+        
+        loadingView.addSubview(actInd)
+        container.addSubview(loadingView)
+        window?.addSubview(container)
+        actInd.startAnimating()
+    }
+    
+    // Indicator 감추기
+    func invisibleActivityIndicatory() {
+        for view in (window?.subviews)! {
+            if view.isEqual(container){
+                view.removeFromSuperview()
+            }
+        }
+    }
+    
+    // Alert 보여주기
+    func showAlert(_ message:String){
+        let alert = UIAlertController(title: "Information", message: "\n\(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        
+        DispatchQueue.main.async {
+            self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

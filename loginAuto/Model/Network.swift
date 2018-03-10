@@ -2,27 +2,29 @@
 import UIKit
 import Alamofire
 
-private var userParameters: Parameters = [ "id": "", "pwd": ""]
-private var adminParameters: Parameters = ["token": "", "id": "", "level": ""]
-private var askParameter: Parameters = ["token": "", "building": ""]
-private var turnOffparameter: Parameters = ["token": "", "location": ""]
-
-private let server:String = "http://bug.lasel.kr/"
-private let signUpURL:String = "users/registration"
-private let loginUrl:String = "users/login"
-private let adminLoadUrl:String = "admin/adminLoad"
-private let adminUpdateUrl:String = "admin/adminUpdate"
-private let askUrl:String = "shutdown/askdb"
-private let turnOffURL:String = "shutdown/turnoff"
+private enum siteURL: String {
+    case server       = "http://bug.lasel.kr/"
+    case signUp       = "users/registration"
+    case login        = "users/login"
+    case adminLoad    = "admin/adminLoad"
+    case adminUpdate  = "admin/adminUpdate"
+    case ask          = "shutdown/askdb"
+    case turnOff      = "shutdown/turnoff"
+}
 
 class Network{
-    let url: String
+    let url: URL
     let method: HTTPMethod
     let parameters: Parameters
     let viewController: UIViewController
     
     init(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:], viewController:UIViewController) {
-        url = server + path
+        if let url = URL(string: siteURL.server.rawValue + path) {
+            self.url = url
+        } else {
+            self.url = URL(string: siteURL.server.rawValue)!
+        }
+        
         self.method = method
         self.parameters = parameters
         self.viewController = viewController
@@ -33,47 +35,53 @@ class Network{
     }
     
     func connetion(completion: @escaping ( [String: AnyObject] ) -> Void) {
-        startActivityIndicator(viewController: viewController)
+        let appdelegate = UIApplication.shared.delegate as! AppDelegate
+        appdelegate.isshowActivityIndicatory()
         
-        Alamofire.request(url, method: method, parameters: parameters).responseJSON { [unowned self] response in
-            //print(response)
+        Alamofire.request(url, method: method, parameters: parameters).responseJSON { response in
             if let JSON = response.result.value{
                 completion(JSON as! [String : AnyObject])
             } else{
-                customAlertJustEnter("서버와의 연결이 불안정합니다.", viewController: self.viewController)
+                appdelegate.showAlert("서버와의 연결이 불안정합니다.")
             }
-            stopActivityIndicator()
+            appdelegate.invisibleActivityIndicatory()
         }
     }
 }
 
 class APIClient {
     func signUp(_ id:String, pw:String, signUpController:SignUpController) {
-        userParameters["id"] = id
-        userParameters["pwd"] = pw
+        var parameters: Parameters = ["id" : "", "pwd" : ""]
+        parameters["id"] = id
+        parameters["pwd"] = pw
         
-        let network = Network(signUpURL, method: .post, parameters: userParameters, viewController: signUpController)
+        let network = Network(siteURL.signUp.rawValue, method: .post, parameters: parameters, viewController: signUpController)
         network.connetion(){ response in
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String {
                 switch resultCode {
                 case 200:
                     signUpController.completeSignUp()
                     break
                 default:
-                    customAlertJustEnter(resultMessage, viewController: signUpController)
+                    appDelegate.showAlert(resultMessage)
                     break
                 }
             }
-            customAlertJustEnter("오류가 발생하였습니다. 재 접속해주세요", viewController: signUpController)
+            appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
         }
     }
     
     func logIn(_ id:String, pw:String, loginController:LoginController){
-        userParameters["id"] = id
-        userParameters["pwd"] = pw
+        var parameters: Parameters = ["id" : "", "pwd" : ""]
+        parameters["id"] = id
+        parameters["pwd"] = pw
         
-        let network = Network(loginUrl, method: .post, parameters: userParameters, viewController: loginController)
+        let network = Network(siteURL.login.rawValue, method: .post, parameters: parameters, viewController: loginController)
         network.connetion() { response in
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultToken = response["token"] as? String {
                 switch resultCode {
                 case 200:
@@ -89,20 +97,22 @@ class APIClient {
                     loginController.completeLogin()
                     break
                 default:
-                    customAlertJustEnter(resultMessage, viewController: loginController)
+                    appDelegate.showAlert(resultMessage)
                     break
                 }
+            } else {
+                appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
             }
-            customAlertJustEnter("오류가 발생하였습니다. 재 접속해주세요", viewController: loginController)
         }
     }
     
     func adminLoad(_ adminController:AdminController){
-        adminParameters["token"] = UserDefaults.standard.getToken()
+        var parameters: Parameters = ["token" : ""]
+        parameters["token"] = UserDefaults.standard.getToken()
         
-        let network = Network(adminLoadUrl, method: .post, parameters: adminParameters, viewController: adminController)
+        let network = Network(siteURL.adminLoad.rawValue, method: .post, parameters: parameters, viewController: adminController)
         network.connetion() { response in
-            //startActivityIndicator(viewController: adminController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultData = response["data"] as? [[String: String]], let resultToken = response["token"] as? String {
                 
@@ -116,12 +126,9 @@ class APIClient {
                     }
                     UserDefaults.standard.setToken(value: resultToken)
                     adminController.tableView.reloadData()
-                    //stopActivityIndicator()
                     break
                 default:
-                    //stopActivityIndicator()
-                    customAlertJustEnter(resultMessage, viewController: adminController)
-                    
+                    appDelegate.showAlert(resultMessage)
                     break
                 }
             }
@@ -129,35 +136,32 @@ class APIClient {
     }
     
     func adminUpdate(_ adminController:AdminController, id:String, level:String){
-        adminParameters["token"] = UserDefaults.standard.getToken()
-        adminParameters["id"] = id
-        adminParameters["level"] = level
+        var parameters: Parameters = ["token" : "", "id" : "", "level" : ""]
+        parameters["token"] = UserDefaults.standard.getToken()
+        parameters["id"] = id
+        parameters["level"] = level
         
-        let network = Network(adminUpdateUrl, method: .post, parameters: adminParameters, viewController: adminController)
+        let network = Network(siteURL.adminUpdate.rawValue, method: .post, parameters: parameters, viewController: adminController)
         network.connetion() { response in
-            startActivityIndicator(viewController: adminController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultmessage = response["message"] as? String, let resultToken = response["token"] as? String {
-                stopActivityIndicator()
                 UserDefaults.standard.setToken(value: resultToken)
-                customAlertJustEnter(resultmessage, viewController: adminController)
-                
+                appDelegate.showAlert(resultmessage)
             }
-            
         }
     }
     
     func askdb(_ shutdownController:ShutdownController){
-        askParameter["token"] = UserDefaults.standard.getToken()
-        askParameter["building"] = UserDefaults.standard.getBuildingNumber()
+        var parameters: Parameters = ["token" : "", "building" : ""]
+        parameters["token"] = UserDefaults.standard.getToken()
+        parameters["building"] = UserDefaults.standard.getBuildingNumber()
         
-        let network = Network(askUrl, method: .post, parameters: askParameter, viewController: shutdownController)
-        
+        let network = Network(siteURL.ask.rawValue, method: .post, parameters: parameters, viewController: shutdownController)
         network.connetion() { response in
-            startActivityIndicator(viewController: shutdownController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultData = response["data"] as? [[String: String]], let resultToken = response["token"] as? String{
-                
                 
                 switch resultCode {
                 case 200:
@@ -170,11 +174,9 @@ class APIClient {
                     }
                     shutdownController.tableView.reloadData()
                     UserDefaults.standard.setToken(value: resultToken)
-                    stopActivityIndicator()
                     break
                 default:
-                    stopActivityIndicator()
-                    customAlertJustEnter(resultMessage, viewController: shutdownController)
+                    appDelegate.showAlert(resultMessage)
                     break
                 }
             }
@@ -182,21 +184,19 @@ class APIClient {
     }
     
     func turnoff(_ shutdownController:ShutdownController, location:String){
-        turnOffparameter["token"] = UserDefaults.standard.getToken()
-        turnOffparameter["location"] = location
+        var parameters: Parameters = ["token" : "", "location" : ""]
+        parameters["token"] = UserDefaults.standard.getToken()
+        parameters["location"] = location
         
-        let network = Network(turnOffURL, method: .post, parameters: turnOffparameter, viewController: shutdownController)
+        let network = Network(siteURL.turnOff.rawValue, method: .post, parameters: parameters, viewController: shutdownController)
         network.connetion() { response in
-            startActivityIndicator(viewController: shutdownController)
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultmessage = response["message"] as? String, let resultToken = response["token"] as? String {
-               
-                stopActivityIndicator()
-                customAlertJustEnter(resultmessage, viewController: shutdownController)
+                appDelegate.showAlert(resultmessage)
                 UserDefaults.standard.setToken(value: resultToken)
             }
         }
     }
-    
 }
 

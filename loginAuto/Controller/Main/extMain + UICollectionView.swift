@@ -25,7 +25,8 @@ extension MainController {
             UserDefaults.standard.setBuildingNumber(value: indexPath.row + 1)
             navigationController?.pushViewController(ShutdownController(), animated: true)
         } else {
-            let alert = customAlertReturnAlert("로그인이 필요한 서비스입니다.")
+            let alert = UIAlertController(title: "Information", message: "로그인이 필요한 서비스입니다.", preferredStyle: .alert)
+            
             alert.addAction(UIAlertAction(title: "취소", style: .cancel))
             alert.addAction(UIAlertAction(title: "로그인", style: .destructive) { (action) in
                 DispatchQueue.main.async {
