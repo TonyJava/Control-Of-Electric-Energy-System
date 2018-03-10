@@ -96,5 +96,53 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
     }    
 \'
 
+팝업창을 뷰 컨트롤러에서 띄우는 것이 아닌 앱 구동 중 항상 열려있는 AppDelegate에서 작동하게 하였습니다. 
+
+해당 코드는 다음과 같습니다.
+
+### AppDelegate 
+
+        // Indicator 보여주기
+        func isshowActivityIndicatory() {
+            container.frame = UIScreen.main.bounds
+            container.center = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+            
+            let loadingView = UIView()
+            loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+            loadingView.center = container.center
+            loadingView.backgroundColor = UIColor(white: 0.3, alpha: 0.7)
+            loadingView.clipsToBounds = true
+            loadingView.layer.cornerRadius = 10
+        
+            let actInd = UIActivityIndicatorView()
+            actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            actInd.activityIndicatorViewStyle = .whiteLarge
+            actInd.center = CGPoint(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2)
+        
+            loadingView.addSubview(actInd)
+            container.addSubview(loadingView)
+            window?.addSubview(container)
+            actInd.startAnimating()
+        }
+    
+        // Indicator 감추기
+        func invisibleActivityIndicatory() {
+            for view in (window?.subviews)! {
+                if view.isEqual(container){
+                    view.removeFromSuperview()
+                }
+            }
+        }
+    
+        // Alert 보여주기
+        func showAlert(_ message:String){
+            let alert = UIAlertController(title: "Information", message: "\n\(message)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
+        
+            DispatchQueue.main.async {
+                self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+            }
+        }
+\'
 
 
