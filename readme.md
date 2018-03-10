@@ -13,22 +13,16 @@
     import Alamofire
 
     private enum siteURL: String {
-        case server       = "서버URL"
-        case signUp       = "회원가입URL"
-        case login        = "로그인URL"
-        case adminLoad    = "관리자URL"
-        case adminUpdate  = "관리자권한변경URL"
-        case ask          = "접속된컴퓨터URL"
-        case turnOff      = "종료URL"    
+        case server       = "서버URL을 추가해주세요"
+        case addURL       = "서버URL을 제외한 나머지 부분을 작성해주세요."
     }
     
     class Network{
         let url: URL
         let method: HTTPMethod
         let parameters: Parameters
-        let viewController: UIViewController
     
-        init(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:], viewController:UIViewController) {
+        init(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:]) {
             if let url = URL(string: siteURL.server.rawValue + path) {
                 self.url = url
             } else {
@@ -37,24 +31,32 @@
         
             self.method = method
             self.parameters = parameters
-            self.viewController = viewController
         }
     
         deinit {
             print("network deinit")
         }
     
-        func connetion(completion: @escaping ( [String: AnyObject] ) -> Void) {
-            let appdelegate = UIApplication.shared.delegate as! AppDelegate
-            appdelegate.isshowActivityIndicatory()
-        
+        func connection(completion: @escaping ( [String: AnyObject] ) -> Void) {
             Alamofire.request(url, method: method, parameters: parameters).responseJSON { response in
                 if let JSON = response.result.value{
                     completion(JSON as! [String : AnyObject])
                 } else{
-                    appdelegate.showAlert("서버와의 연결이 불안정합니다.")
+                    print("서버와의 연결이 불안정합니다.")
                 }
-                appdelegate.invisibleActivityIndicatory()
             }
         }
     }
+\'
+
+Network Class는 Alamofire를 기반으로한 통신 Class입니다. Network Class는 주소, HTTP규약, 파라미터가 필요합니다.
+
+Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니다. 
+
+해당 클래스는 비동기로 작동하며 connection 함수가 완료되면 해당 url을 통해 전달받은 JSON을 리턴하게 됩니다.
+
+
+
+
+
+
