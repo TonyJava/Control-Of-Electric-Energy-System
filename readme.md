@@ -56,7 +56,45 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
 해당 클래스는 비동기로 작동하며 connection 함수가 완료되면 해당 url을 통해 전달받은 JSON을 리턴하게 됩니다.
 
 
+다음은 실제 제가 사용한 코드입니다.
 
+    class Network{
+        let url: URL
+        let method: HTTPMethod
+        let parameters: Parameters
+        let viewController: UIViewController
+
+        init(_ path: String, method: HTTPMethod = .post, parameters: Parameters = [:], viewController:UIViewController) {
+            if let url = URL(string: siteURL.server.rawValue + path) {
+                self.url = url
+            } else {
+                self.url = URL(string: siteURL.server.rawValue)!
+            }
+        
+            self.method = method
+            self.parameters = parameters
+            self.viewController = viewController
+        }
+    
+        deinit {
+            print("network deinit")
+        }
+    
+        func connetion(completion: @escaping ( [String: AnyObject] ) -> Void) {
+            let appdelegate = UIApplication.shared.delegate as! AppDelegate
+            appdelegate.isshowActivityIndicatory()
+        
+            Alamofire.request(url, method: method, parameters: parameters).responseJSON { response in
+                if let JSON = response.result.value{
+                    completion(JSON as! [String : AnyObject])
+                } else{
+                    appdelegate.showAlert("서버와의 연결이 불안정합니다.")
+                }
+                appdelegate.invisibleActivityIndicatory()
+            }
+        }
+    }    
+\'
 
 
 
