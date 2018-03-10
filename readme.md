@@ -10,7 +10,7 @@
 ## 핵심코드 Network 설명
 
     import UIKit
-    import Alamofire
+    import Alamofire
 
     private enum siteURL: String {
         case server       = "서버URL"
