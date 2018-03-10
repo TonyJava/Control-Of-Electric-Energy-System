@@ -50,6 +50,8 @@ class Network{
 }
 
 class APIClient {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     func signUp(_ id:String, pw:String, signUpController:SignUpController) {
         var parameters: Parameters = ["id" : "", "pwd" : ""]
         parameters["id"] = id
@@ -57,7 +59,6 @@ class APIClient {
         
         let network = Network(siteURL.signUp.rawValue, method: .post, parameters: parameters, viewController: signUpController)
         network.connetion(){ response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String {
                 switch resultCode {
@@ -65,11 +66,11 @@ class APIClient {
                     signUpController.completeSignUp()
                     break
                 default:
-                    appDelegate.showAlert(resultMessage)
+                    self.appDelegate.showAlert(resultMessage)
                     break
                 }
             }
-            appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
+            self.appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
         }
     }
     
@@ -80,7 +81,6 @@ class APIClient {
         
         let network = Network(siteURL.login.rawValue, method: .post, parameters: parameters, viewController: loginController)
         network.connetion() { response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultToken = response["token"] as? String {
                 switch resultCode {
@@ -97,11 +97,11 @@ class APIClient {
                     loginController.completeLogin()
                     break
                 default:
-                    appDelegate.showAlert(resultMessage)
+                    self.appDelegate.showAlert(resultMessage)
                     break
                 }
             } else {
-                appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
+                self.appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
             }
         }
     }
@@ -112,7 +112,6 @@ class APIClient {
         
         let network = Network(siteURL.adminLoad.rawValue, method: .post, parameters: parameters, viewController: adminController)
         network.connetion() { response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultData = response["data"] as? [[String: String]], let resultToken = response["token"] as? String {
                 
@@ -128,7 +127,7 @@ class APIClient {
                     adminController.tableView.reloadData()
                     break
                 default:
-                    appDelegate.showAlert(resultMessage)
+                    self.appDelegate.showAlert(resultMessage)
                     break
                 }
             }
@@ -143,11 +142,10 @@ class APIClient {
         
         let network = Network(siteURL.adminUpdate.rawValue, method: .post, parameters: parameters, viewController: adminController)
         network.connetion() { response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultmessage = response["message"] as? String, let resultToken = response["token"] as? String {
                 UserDefaults.standard.setToken(value: resultToken)
-                appDelegate.showAlert(resultmessage)
+                self.appDelegate.showAlert(resultmessage)
             }
         }
     }
@@ -159,7 +157,6 @@ class APIClient {
         
         let network = Network(siteURL.ask.rawValue, method: .post, parameters: parameters, viewController: shutdownController)
         network.connetion() { response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultData = response["data"] as? [[String: String]], let resultToken = response["token"] as? String{
                 
@@ -176,7 +173,7 @@ class APIClient {
                     UserDefaults.standard.setToken(value: resultToken)
                     break
                 default:
-                    appDelegate.showAlert(resultMessage)
+                    self.appDelegate.showAlert(resultMessage)
                     break
                 }
             }
@@ -190,10 +187,9 @@ class APIClient {
         
         let network = Network(siteURL.turnOff.rawValue, method: .post, parameters: parameters, viewController: shutdownController)
         network.connetion() { response in
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             
             if let resultmessage = response["message"] as? String, let resultToken = response["token"] as? String {
-                appDelegate.showAlert(resultmessage)
+                self.appDelegate.showAlert(resultmessage)
                 UserDefaults.standard.setToken(value: resultToken)
             }
         }
