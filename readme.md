@@ -146,3 +146,43 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
 \'
 
 
+Network Class를 활용하여 앱 내에서 사용하는 모든 통신을 한 곳에 모아 정리하였습니다. 모두 설명하기에 코드가 길어지니 일부분만 발췌하였습니다.
+
+명칭은 APIClient입니다. 코드는 다음과 같습니다.
+
+    class APIClient {
+        func logIn(_ id:String, pw:String, loginController:LoginController){
+            var parameters: Parameters = ["id" : "", "pwd" : ""]
+            parameters["id"] = id
+            parameters["pwd"] = pw
+        
+            let network = Network(siteURL.login.rawValue, method: .post, parameters: parameters, viewController: loginController)
+            network.connetion() { response in
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+                if let resultCode = response["code"] as? Int, let resultMessage = response["message"] as? String, let resultToken = response["token"] as? String {
+                    switch resultCode {
+                    case 200:
+                        UserDefaults.standard.setToken(value: resultToken)
+                        UserDefaults.standard.setRights(value: 1)
+                        UserDefaults.standard.setloginId(value: id)
+                        loginController.completeLogin()
+                        break
+                    case 201:
+                        UserDefaults.standard.setToken(value: resultToken)
+                        UserDefaults.standard.setRights(value: 99)
+                        UserDefaults.standard.setloginId(value: id)
+                        loginController.completeLogin()
+                        break
+                    default:
+                        appDelegate.showAlert(resultMessage)
+                        break
+                    }
+                } else {
+                    appDelegate.showAlert("오류가 발생하였습니다. 재 접속해주세요")
+                }
+            }
+        }
+        ..... 중략   
+      }
+\'
