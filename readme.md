@@ -4,6 +4,8 @@
 
 무슨 프로그램인지 이해가 안되신다면 http://bug.lasel.kr/blog/?p=198 를 참고해주세요!!
 
+##### 인절미는 IOS 9.0부터 지원합니다.
+
 ### FlowChart
 ![flowchart](./flowchart.jpeg)
 
