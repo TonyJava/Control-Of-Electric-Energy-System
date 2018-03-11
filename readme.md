@@ -2,8 +2,10 @@
 # 인절미 APP
 
 
-
 무슨 프로그램인지 이해가 안되신다면 http://bug.lasel.kr/blog/?p=198 를 참고해주세요!!
+
+### FlowChart
+![flowchart](./flowchart.jpg)
 
 
 
