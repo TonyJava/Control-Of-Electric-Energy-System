@@ -5,9 +5,9 @@
 무슨 프로그램인지 이해가 안되신다면 http://bug.lasel.kr/blog/?p=198 를 참고해주세요!!
 
 ### FlowChart
-![flowchart](./flowchart.jpg)
+![flowchart](./flowchart.jpeg)
 
-
+형광펜으로 칠한 부분이 다음에 설명할 Network 함수를 사용한 부분입니다.
 
 ## 핵심코드 Network 설명
 
