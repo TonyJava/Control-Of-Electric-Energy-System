@@ -7,7 +7,7 @@
 ##### EnergySystem는 IOS 9.0부터 지원합니다.
 
 ### FlowChart
-![flowchart](/assets/flowchart.jpeg)
+![flowchart](/asserts/flowchart.jpeg)
 
 형광펜으로 칠한 부분이 다음에 설명할 Network 함수를 사용한 부분입니다.
 
