@@ -12,7 +12,7 @@
 형광펜으로 칠한 부분이 다음에 설명할 Network 함수를 사용한 부분입니다.
 
 ## 핵심코드 Network 설명
-
+~~~swift
     import UIKit
     import Alamofire
 
@@ -51,7 +51,7 @@
             }
         }
     }
-\'
+~~~
 
 Network Class는 Alamofire를 기반으로한 통신 Class입니다. Network Class는 주소, HTTP규약, 파라미터가 필요합니다.
 
@@ -61,7 +61,7 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
 
 
 다음은 실제 제가 사용한 코드입니다.
-
+~~~swift
     class Network{
         let url: URL
         let method: HTTPMethod
@@ -98,14 +98,14 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
             }
         }
     }    
-\'
+~~~
 
 팝업창을 뷰 컨트롤러에서 띄우는 것이 아닌 앱 구동 중 항상 열려있는 AppDelegate에서 작동하게 하였습니다. 
 
 해당 코드는 다음과 같습니다.
 
 ### AppDelegate 
-
+~~~swift
         // Indicator 보여주기
         func isshowActivityIndicatory() {
             container.frame = UIScreen.main.bounds
@@ -147,13 +147,14 @@ Network 내 connection 함수를 통해 서버와 JSON 통신이 가능해집니
                 self.window?.rootViewController?.present(alert, animated: true, completion: nil)
             }
         }
-\'
+~~~
 
 
 Network Class를 활용하여 앱 내에서 사용하는 모든 통신을 한 곳에 모아 정리하였습니다. 모두 설명하기에 코드가 길어지니 일부분만 발췌하였습니다.
 
 명칭은 APIClient입니다. 코드는 다음과 같습니다.
 
+~~~swift
     class APIClient {
         func logIn(_ id:String, pw:String, loginController:LoginController){
             var parameters: Parameters = ["id" : "", "pwd" : ""]
@@ -189,7 +190,7 @@ Network Class를 활용하여 앱 내에서 사용하는 모든 통신을 한 �
         }
         ..... 중략   
       }
-\'
+~~~
 
 
 network 객체를 생성하여 인자를 전달해주고 통신이 완료가 되었다면 response로 값을 갖고와 사용자가 원하는 작업을 하는 코드입니다.
@@ -198,6 +199,7 @@ network 객체를 생성하여 인자를 전달해주고 통신이 완료가 되
 
 ## AutoLayout을 위한 anchor함수
 
+~~~swift
     extension UIView {
         func anchorToTop(_ top: NSLayoutYAxisAnchor? = nil, leading: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, trailing: NSLayoutXAxisAnchor? = nil) {
             
@@ -243,7 +245,7 @@ network 객체를 생성하여 인자를 전달해주고 통신이 완료가 되
             return anchors
         }
     }
-\'
+~~~
 
 위의 코드는 Code로 작성할 떄 자주 사용하던 anchor함수입니다. 총 3개의 함수로 구성되어 있습니다.
 
@@ -257,6 +259,7 @@ anchor함수는 모든 부분이 필요할 때 사용합니다.
 
 사용 예제는 다음과 같습니다.
 
+~~~swift
     // MARK: - 레이아웃 함수 ///////////////////////////////////////////////////////////////////////////////////
     
         private func setupLayout(){
@@ -276,7 +279,7 @@ anchor함수는 모든 부분이 필요할 때 사용합니다.
         }
     
     // MARK: - 끝 ///////////////////////////////////////////////////////////////////////////////////
-\'
+~~~
 
 
 
