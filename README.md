@@ -7,7 +7,7 @@
 
 <div align=center> 
 
-<img src="/gif/certificate.png" width="400" height="600">
+<img src="/asserts/certificate.png" width="500" height="600">
 
 </div>
 
