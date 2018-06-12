@@ -5,11 +5,6 @@
 
 * 이 앱은 Android, iOS을 지원하고 서버는 AWS, 서버 언어는 PHP(Codeigniter), 윈도우 프로그램(C#)을 이용한 프로젝트입니다.
 
-<div align=center> 
-
-<img src="/asserts/certificate.png" width="500" height="600">
-
-</div>
 
 #### 인트로
 
