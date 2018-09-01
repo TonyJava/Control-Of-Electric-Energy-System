@@ -33,7 +33,6 @@
 		85F87DC620B50C6F00E15BF2 /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F87DAA20B50C6F00E15BF2 /* PageCell.swift */; };
 		85F87DC720B50C6F00E15BF2 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F87DAB20B50C6F00E15BF2 /* MainCell.swift */; };
 		85F87DC820B50C6F00E15BF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F87DAC20B50C6F00E15BF2 /* AppDelegate.swift */; };
-		85F87DC920B50C6F00E15BF2 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85F87DAD20B50C6F00E15BF2 /* Info.plist */; };
 		AFE0CC406EA0F0EFCF4B33F3 /* Pods_EnergySystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EC6A46E7D860A6A377E0EF /* Pods_EnergySystem.framework */; };
 /* End PBXBuildFile section */
 
@@ -311,7 +310,6 @@
 			files = (
 				85F87DC520B50C6F00E15BF2 /* LaunchScreen.storyboard in Resources */,
 				85F87DC420B50C6F00E15BF2 /* Assets.xcassets in Resources */,
-				85F87DC920B50C6F00E15BF2 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
