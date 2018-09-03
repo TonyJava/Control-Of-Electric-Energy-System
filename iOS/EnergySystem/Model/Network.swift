@@ -3,7 +3,7 @@ import UIKit
 import Alamofire
 
 private enum siteURL: String {
-    case server       = "http://apic.bugking.tk/"
+    case server       = "http://apic.bugking.ga/"
     case signUp       = "users/registration"
     case login        = "users/login"
     case adminLoad    = "admin/adminLoad"
